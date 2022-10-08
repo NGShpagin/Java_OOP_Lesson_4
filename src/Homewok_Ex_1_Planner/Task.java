@@ -3,22 +3,29 @@ package Homewok_Ex_1_Planner;
 import java.util.*;
 
 public class Task {
+    private static int id;
     String name;
     List<String> items = new ArrayList<>();
     Priority priority;
+    State state = State.InWork;
     Calendar dueDate = new GregorianCalendar();
-    Date originated = (new GregorianCalendar()).getTime();
+    private final Date originated = (new GregorianCalendar()).getTime();
 
     String string = "";
 
-    static int i = 1;
-    static String itemList = "Items:\n";
+    private int i = 1;
+    private String itemList = "\nItems:\n";
+
+    static {
+        Task.id = 0;
+    }
 
     enum Priority {Low, Middle, High};
+    enum State {Done, InWork, Cancelled}
 
     public Task(String name) {
         this.name = name;
-        string += String.format("Name: %s\n", name);
+        string += String.format("Id: %d\nName: %s\n", ++id, name);
     }
 
     public void addItem(String item) {
@@ -29,6 +36,10 @@ public class Task {
     public void setPriority(Priority priority) {
         this.priority = priority;
         string += String.format("Priority: %s\n", priority);
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public void setDueDate(int day, int month, int year) {
@@ -45,6 +56,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return string + itemList + ("Originated: " + originated);
+        return string + ("State: " + state) + itemList + ("Originated: " + originated);
     }
 }
